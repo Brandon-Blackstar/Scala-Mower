@@ -1,10 +1,15 @@
 package fr.esgi.al.funprog
 
-object Main extends App {
-  println("Ici le programme principal")
-  // Le code suivant ne compilera pas.
-  // var tmp = null;
-  // var tmp2 = if (tmp == 1) "yes" else 1
+import scala.io.StdIn.readLine
+import progfun.FileReader
 
-  // println(s"tmp: $tmp, tmp2: $tmp2")
+object Main extends App {
+  // ouvrir et afficher le contenu d'un fichier après demande du path et utiliser la classe FileReader
+  println(":> Enter the path of the file: ")
+
+  val path = readLine()
+  val fileReader = FileReader(path)
+  val content = fileReader.getContent()
+  println(s":> $content")
+
 }
