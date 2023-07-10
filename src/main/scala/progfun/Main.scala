@@ -1,15 +1,49 @@
 package fr.esgi.al.funprog
 
-import scala.io.StdIn.readLine
-import progfun.FileReader
 
-object Main extends App {
-  // ouvrir et afficher le contenu d'un fichier après demande du path et utiliser la classe FileReader
-  println(":> Enter the path of the file: ")
+import progfun.{East, FileReader, North, Orientation, Pelouse, Position, South, Tondeuse, West}
 
-  val path = readLine()
-  val fileReader = FileReader(path)
-  val content = fileReader.getContent()
-  println(s":> $content")
+import scala.util.{Failure, Success, Try}
 
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    val filePathIn = "D:\\ESGI\\SCALA\\projet\\in2.txt"
+
+    val result = for {
+      lines <- FileReader(filePathIn).getLines()
+      pelouseInfos <- Try(lines(0).split(" "))
+      limiteX <- Try(pelouseInfos(0).toInt)
+      limiteY <- Try(pelouseInfos(1).toInt)
+      limite = Position(limiteX, limiteY)
+      tondeusesData = lines.drop(1).grouped(2).toList
+      tondeuses <- Try {
+        tondeusesData.map { data =>
+          val tondeusePosition = data(0).split(" ")
+          val tondeuseX = tondeusePosition(0).toInt
+          val tondeuseY = tondeusePosition(1).toInt
+          val orientation: Orientation = tondeusePosition(2) match {
+            case "N" => North
+            case "E" => East
+            case "W" => West
+            case "S" => South
+            case _ => sys.error("Orientation invalide")
+          }
+          val tondeuseInstructions = data(1).toList
+          Tondeuse(Position(tondeuseX, tondeuseY), orientation, tondeuseInstructions)
+        }
+      }
+      pelouse = Pelouse(limite, tondeuses)
+      rapport <- pelouse.executeInstructions()
+
+    } yield rapport
+
+    result match {
+      case Success(rapport) => println(rapport)
+      case Failure(exception) =>
+        println(s"Une erreur s'est produite : ${exception.getMessage}")
+        sys.exit(1)
+    }
+  }
 }
+
