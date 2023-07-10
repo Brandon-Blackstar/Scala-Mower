@@ -3,12 +3,14 @@ package fr.esgi.al.funprog
 
 import progfun.{East, FileReader, North, Orientation, Pelouse, Position, South, Tondeuse, West}
 
+import scala.io.StdIn.readLine
 import scala.util.{Failure, Success, Try}
 
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val filePathIn = "D:\\ESGI\\SCALA\\projet\\in2.txt"
+    println(":> Enter the path of the file: ")
+    val filePathIn = readLine()
 
     val result = for {
       lines <- FileReader(filePathIn).getLines()
