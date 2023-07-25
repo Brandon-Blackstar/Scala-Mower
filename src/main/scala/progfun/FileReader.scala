@@ -9,15 +9,20 @@ case class LawnError(message: String)
 case class FileReader(filePath: String) {
   def parseInput(filePath: String): Either[LawnError, Lawn] = {
     val file = File(filePath)
-    val lines = file.lines.toList
-    lines match {
-      case limit :: mowerLines =>
-        for {
-          limitPosition <- parsePosition(limit)
-          mowers <- parseMowers(mowerLines)
-        } yield Lawn(limitPosition, mowers)
-      case _ =>
-        Left(LawnError("Invalid input file"))
+    if (!file.exists) {
+      Left(LawnError(s"File $filePath does not exist"))
+    }
+    else {
+      val lines = file.lines.toList
+      lines match {
+        case limit :: mowerLines =>
+          for {
+            limitPosition <- parsePosition(limit)
+            mowers <- parseMowers(mowerLines)
+          } yield Lawn(limitPosition, mowers)
+        case _ =>
+          Left(LawnError("Invalid input file"))
+      }
     }
   }
 

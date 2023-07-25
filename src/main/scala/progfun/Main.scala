@@ -41,7 +41,6 @@ object Main extends App {
         case Failure(e) => println(s"Failed to write to the file $outputFilePath.csv: ${e.getMessage}")
       }
 
-    case Left(error) =>
-      println(s"Error parsing the input file: ${error.message}")
+    case Left(error) => println(s"Error parsing the input file: ${error.message}")
   }
 }
