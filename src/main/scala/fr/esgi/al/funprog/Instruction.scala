@@ -1,4 +1,4 @@
-package progfun
+package fr.esgi.al.funprog
 
 sealed trait Instruction
 case object A extends Instruction

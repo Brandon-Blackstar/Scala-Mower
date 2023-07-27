@@ -1,4 +1,4 @@
-package progfun
+package fr.esgi.al.funprog
 
 case class Lawn(limit: Position, mowers: List[Mower]) {
   def executeAllMowers(): Lawn = {
@@ -8,4 +8,3 @@ case class Lawn(limit: Position, mowers: List[Mower]) {
     this.copy(mowers = finalMowers)
   }
 }
-
