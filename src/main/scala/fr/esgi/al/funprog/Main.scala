@@ -7,6 +7,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 
 object Main extends App {
 
+  // load config file and catch errors if it fails
   val config: Config = Try(ConfigFactory.load()) match {
     case Success(config) => config
     case Failure(_) =>
@@ -14,6 +15,7 @@ object Main extends App {
       sys.exit(1)
   }
 
+  // load input and output files paths from config file and catch errors if it fails
   val inputFilePath: String = Try(
     config.getString("application.input-file")
   ) match {
